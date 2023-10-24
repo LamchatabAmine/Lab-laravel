@@ -6,8 +6,8 @@
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item active">Home</li>
-                    <li class="breadcrumb-item"><a href="./compentence.php?action=ajouter">Ajouter Competence</a></li>
+                    <li class="breadcrumb-item">Home</li>
+                    <li class="breadcrumb-item active"><a href="{{ route('competence.ajouter') }}">Ajouter Competence</a></li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
