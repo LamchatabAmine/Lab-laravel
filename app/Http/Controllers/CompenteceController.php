@@ -23,7 +23,7 @@ class CompenteceController extends Controller
      */
     public function create()
     {
-        //
+        return view('templates.create');
     }
 
     /**
@@ -31,8 +31,30 @@ class CompenteceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validate the input data
+        $validatedData = $request->validate([
+            'References' => 'required',
+            'Code' => 'nullable|string',
+            'Nom' => 'required',
+            'Description' => 'required',
+        ]);
+
+        // Create a new instance of the model
+        $competence = new Compentece;
+
+        // Assign the input values to the model attributes
+        $competence->References = $request->References;
+        $competence->Code = $request->Code;
+        $competence->Nom = $request->Nom;
+        $competence->Description = $request->Description;
+
+        // Save the model to the database
+        $competence->save();
+
+        // Redirect to the index page
+        return redirect()->route('index')->with("message", "Competence added successfully");
     }
+
 
     /**
      * Display the specified resource.

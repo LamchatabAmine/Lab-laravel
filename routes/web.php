@@ -15,19 +15,24 @@ use Illuminate\Support\Facades\DB;
 |
 */
 
-
-Route::get('/', function () {return view('index');})->name('index');
 // Route::get('/', [CompenteceController::class, 'index'])->name('index');
 
 
-Route::get('/test-database-connection', function () {
-    try {
-        DB::connection()->getPdo();
-        return 'Database connection is successful';
-    } catch (Exception $e) {
-        return 'Database connection failed: ' . $e->getMessage();
-    }
-});
+
+Route::resource('/', CompenteceController::class);
+
+
+
+
+
+// Route::get('/test-database-connection', function () {
+//     try {
+//         DB::connection()->getPdo();
+//         return 'Database connection is successful';
+//     } catch (Exception $e) {
+//         return 'Database connection failed: ' . $e->getMessage();
+//     }
+// });
 
 
 
