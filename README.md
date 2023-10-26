@@ -1,8 +1,8 @@
-# Lab laravel basic
+# Lab laravel standard
 A Laravel project for managing and tracking skills using the AdminLTE library.
 
 ## Table of Contents
-- [Lab laravel basic](#lab-laravel-basic)
+- [Lab laravel standard](#lab-laravel-standard)
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
   - [Features](#features)
