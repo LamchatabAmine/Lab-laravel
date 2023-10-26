@@ -31,7 +31,7 @@ class CompenteceController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate the input data
+        // Validate  data
         $validatedData = $request->validate([
             'References' => 'required',
             'Code' => 'nullable|string',
@@ -59,7 +59,7 @@ class CompenteceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Compentece $compentece)
+    public function show(Compentece $competence)
     {
         //
     }
@@ -67,24 +67,53 @@ class CompenteceController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Compentece $compentece)
+    public function edit(Compentece $id)
     {
-        //
+        // $competence = compentece::findOrFail($compentece);
+        $competence = $id;
+        return view('templates.edit', compact('competence'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Compentece $compentece)
+    public function update(Request $request, $id)
     {
-        //
+        // Validate  data
+        $validatedData = $request->validate([
+            'References' => 'required',
+            'Code' => 'nullable|string',
+            'Nom' => 'required',
+            'Description' => 'required',
+        ]);
+        // Find the Id of Competence
+        $competence = Compentece::findOrFail($id);
+        // Check if the competence exists
+        // if (!$competence) {
+        //     return redirect()->route('index')->with("error", "Competence not found");
+        // }
+        // Assign the input values to the model attributes
+        $competence->References = $request->References;
+        $competence->Code = $request->Code;
+        $competence->Nom = $request->Nom;
+        $competence->Description = $request->Description;
+
+        // Save the model to the database
+        $competence->save();
+
+       // Redirect to the index page
+        return redirect()->route('index')->with("message", "Competence Update successfully");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Compentece $compentece)
+    public function destroy($id)
     {
-        //
+        $delete = Compentece::findOrFail($id);
+        $delete->delete();
+        return redirect()->route('index')->with("message", "Competence Deleted successfully");
     }
 }
+
+

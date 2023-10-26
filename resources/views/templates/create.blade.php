@@ -52,7 +52,7 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="reference">Compentence Reference</label>
-                                    <input name="References" type="text" class="form-control" id="reference" placeholder="Entre reference" <?php echo isset($_GET['action']) && str_starts_with($_GET['action'], 'edit') ? 'value="' . $competence->getReference() . '"' : ''; ?>>
+                                    <input name="References" type="text" class="form-control" id="reference" placeholder="Entre reference" >
                                 </div>
 
                                 <div class="form-group">

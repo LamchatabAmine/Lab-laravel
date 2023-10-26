@@ -21,12 +21,24 @@
         </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
-
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
+            @if ($errors->any())
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h5><i class="icon fas fa-ban"></i>Please all fields is required without code!</h5>
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <!-- form  -->
-            <form method="post">
+            <form action="{{route('competence.update', $competence->id)}}"  method="POST">
+                @csrf
+                @method('PUT')
                 <div class="row">
                     <!-- left column -->
                     <div class="col-md-12">
@@ -39,30 +51,30 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="reference">Compentence Reference</label>
-                                    <input name="reference" type="text" class="form-control" id="reference" placeholder="Entre reference" <?php echo isset($_GET['action']) && str_starts_with($_GET['action'], 'edit') ? 'value="' . $competence->getReference() . '"' : ''; ?>>
+                                    <input name="References" type="text" class="form-control" id="reference" placeholder="Entre reference" value="{{ $competence->References }}">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="code">Compentence Code</label>
-                                    <input name="code" type="text" class="form-control" id="code" placeholder="Enter Compentence" >
+                                    <input name="Code" type="text" class="form-control" id="code" placeholder="Enter Compentence Code"  value="{{ $competence->Code }}">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="nom">Compentence Nom</label>
-                                    <input name="nom" type="text" class="form-control" id="nom" placeholder="Entre nom" >
+                                    <input name="Nom" type="text" class="form-control" id="nom" placeholder="Entre nom" value="{{ $competence->Nom }}">
                                 </div>
 
                                 <!-- Description -->
                                 <div class="form-group">
                                     <label for="description">Description</label>
-                                    <textarea name="description" id="description"></textarea>
+                                    <textarea name="Description" id="description">{{ $competence->Description }}</textarea>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="submit" name="" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
             </form>
         </div>

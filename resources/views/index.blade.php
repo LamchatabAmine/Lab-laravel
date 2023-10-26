@@ -28,8 +28,16 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
+        @if(session('message'))
+            <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h5><i class="icon fas fa-check"></i> Alert!</h5>
+                {{ session('message') }}.
+            </div>
+        @endif
+
         <div class="row">
-          <div class="col-12">
+            <div class="col-12">
             <div class="card">
                 <!-- /.card-header -->
                 <div class="card-header">
@@ -52,16 +60,21 @@
                             <th scope="row">{{ $competene->References }}</th>
                             <td>{{ $competene->Code }}</td>
                             <td>{{ $competene->Nom }}</td>
-                            <td>{{ $competene->Description }}</td>
+                            <td>{!! $competene->description !!}</td>
                             <td>
-                            <div class="btn-group" style="gap: 8px;">
-                                <a href="#edit" class="btn btn-success">
-                                <i class="fas fa-edit"></i>
-                                </a>
-                                <a class="btn btn-danger">
-                                <i class="fas fa-trash"></i>
-                                </a>
-                            </div>
+                                <div class="btn-group" style="gap: 8px;">
+                                    <a href="{{route('edit', $competene->id) }}" class="btn btn-success">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <form action="{{route('competence.destroy', $competene->id)}}" method="post">
+                                        @csrf
+                                        @method("DELETE")
+                                        <button class="btn btn-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+
+                                </div>
                             </td>
                         </tr>
                     @empty

@@ -21,6 +21,12 @@ use Illuminate\Support\Facades\DB;
 
 Route::resource('/', CompenteceController::class);
 
+Route::get('{id}/edit', [CompenteceController::class, 'edit']);
+
+Route::put('/{id}', [CompenteceController::class, 'update'])->name('competence.update');
+
+Route::delete('/{id}', [CompenteceController::class, 'destroy'])->name('competence.destroy');
+
 
 
 
@@ -36,14 +42,12 @@ Route::resource('/', CompenteceController::class);
 
 
 
-Route::get('competence/ajouter', function () {
-    return view('templates/templateAdd');
-})->name('competence.ajouter');
 
 
-Route::get('competence/edit', function () {
-    return view('templates/templateEdit');
-})->name('competence.edit');
+// Route::get('edit', function () {
+//     return view('templates.edit');
+// })->name('competence.edit');
+
 
 
 // Add a catch-all route for 'competence' and redirect to 'index'
