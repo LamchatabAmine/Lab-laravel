@@ -1,22 +1,22 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Repositories\CompetenceRepository;
 use App\Models\Compentece;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class CompenteceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected $CompetenceRepository;
+    public function __construct(CompetenceRepository $CompetenceRepository){
+        $this->CompetenceRepository = $CompetenceRepository;
+    }
     public function index()
     {
-        $data = Compentece::all();
+        $data = $this->CompetenceRepository->getAll();
         return view('index', compact('data'));
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -40,16 +40,9 @@ class CompenteceController extends Controller
         ]);
 
         // Create a new instance of the model
-        $competence = new Compentece;
-
-        // Assign the input values to the model attributes
-        $competence->References = $request->References;
-        $competence->Code = $request->Code;
-        $competence->Nom = $request->Nom;
-        $competence->Description = $request->Description;
-
-        // Save the model to the database
-        $competence->save();
+        $data = $request->all();
+        // $data = $request->validated;
+        $this->CompetenceRepository->create($data);
 
         // Redirect to the index page
         return redirect()->route('index')->with("message", "Competence added successfully");
@@ -67,10 +60,11 @@ class CompenteceController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Compentece $id)
+    public function edit($id)
     {
         // $competence = compentece::findOrFail($compentece);
-        $competence = $id;
+        $competence = $this->CompetenceRepository->find($id);
+        // $competence = $id;
         return view('templates.edit', compact('competence'));
     }
 
@@ -86,21 +80,16 @@ class CompenteceController extends Controller
             'Nom' => 'required',
             'Description' => 'required',
         ]);
+        // data have validated data
+        // $data = $request->validated;
+        $data = $request->all();
         // Find the Id of Competence
-        $competence = Compentece::findOrFail($id);
+        $competence = $this->CompetenceRepository->find($id);
         // Check if the competence exists
-        // if (!$competence) {
-        //     return redirect()->route('index')->with("error", "Competence not found");
-        // }
-        // Assign the input values to the model attributes
-        $competence->References = $request->References;
-        $competence->Code = $request->Code;
-        $competence->Nom = $request->Nom;
-        $competence->Description = $request->Description;
-
-        // Save the model to the database
-        $competence->save();
-
+        if (!$competence) {
+            return redirect()->back()->with("error", "Competence not found");
+        }
+        $this->CompetenceRepository->update($id, $data);
        // Redirect to the index page
         return redirect()->route('index')->with("message", "Competence Update successfully");
     }
@@ -110,8 +99,14 @@ class CompenteceController extends Controller
      */
     public function destroy($id)
     {
-        $delete = Compentece::findOrFail($id);
-        $delete->delete();
+        $competence = $this->CompetenceRepository->find($id);
+
+        if (!$competence) {
+            return redirect()->back()->with("error", "Competence not found");
+        }
+
+        $this->CompetenceRepository->delete($id);
+
         return redirect()->route('index')->with("message", "Competence Deleted successfully");
     }
 }
