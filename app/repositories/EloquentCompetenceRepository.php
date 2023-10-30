@@ -29,14 +29,25 @@ class EloquentCompetenceRepository implements CompetenceRepository {
         return Compentece::destroy($id);
     }
 
-    public function search($search) {
-        $searchQuery = $search;
+    public function restore($id) {
+        $competence = Compentece::withTrashed()->find($id);
 
-        $results = Compentece::where('Code', 'like', '%' . $searchQuery . '%')
-            ->orWhere('Nom', 'like', '%' . $searchQuery . '%')
-            ->paginate(2);
+        if ($competence && $competence->trashed()) {
+            $competence->restore();
+            return redirect()->route('index')->with("message", 'Competence Restored successfully.');
+        }
 
-            return $results;
     }
+
+
+    // public function search($search) {
+    //     $searchQuery = $search;
+
+    //     $results = Compentece::where('Code', 'like', '%' . $searchQuery . '%')
+    //         ->orWhere('Nom', 'like', '%' . $searchQuery . '%')
+    //         ->paginate(2);
+
+    //         return $results;
+    // }
 
 }

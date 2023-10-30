@@ -23,6 +23,8 @@ Route::resource('/', CompenteceController::class);
 
 Route::get('{id}/edit', [CompenteceController::class, 'edit']);
 
+Route::get('{id}/restore', [CompenteceController::class, 'restore'])->name('restore');
+
 Route::put('/{id}', [CompenteceController::class, 'update'])->name('competence.update');
 
 Route::delete('/{id}', [CompenteceController::class, 'destroy'])->name('competence.destroy');

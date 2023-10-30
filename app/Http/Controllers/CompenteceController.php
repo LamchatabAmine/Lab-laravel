@@ -107,8 +107,20 @@ class CompenteceController extends Controller
 
         $this->CompetenceRepository->delete($id);
 
-        return redirect()->route('index')->with("message", "Competence Deleted successfully");
+        return redirect()->route('index')->with("message", 'Competence Deleted successfully. <a class="font-weight-bold" href="'.route('restore', $id).'">Whoops, Undo</a>');
+        // return redirect()->route('index')->with("message", "Competence Deleted successfully");
     }
+
+    public function restore(int $id)
+    {
+        $result = $this->CompetenceRepository->restore($id);
+        if ($result->getStatusCode() == 302) {
+            return $result;
+        }
+        // Handle the case where the restore was not successful
+        return redirect()->route('index')->with("message", 'Competence not found or cannot be restored.');
+    }
+
 }
 
 
